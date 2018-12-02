@@ -23,7 +23,7 @@ gem 'countrizable'
 
 ## Model country attributes
 
-Model translations allow you to translate your models' attribute values. E.g.
+Model country attributes allow you to translate your models' depending on gem's selected country. E.g.
 
 ```ruby
 class Product < ActiveRecord::Base
@@ -32,7 +32,7 @@ class Product < ActiveRecord::Base
 end
 ```
 
-Allows you to translate the attributes :title and :text per locale:
+Allows you to translate the attributes :price and :currency per country_code:
 
 ```ruby
 Countrizable.country_code = :uk
@@ -44,7 +44,7 @@ product.price # =>  3.60
 product.currency # => Euro
 ```
 
-You can also set translations with mass-assignment by specifying the locale:
+You can also set values with mass-assignment by specifying the country_code:
 
 ```ruby
 product.attributes = { price: 4.5, country_code: :uk }
@@ -60,7 +60,7 @@ and `drop_country_value_table!` inside the `change` instance method.
 
 ### Creating country value tables
 
-Also note that before you can create a translation table, you have to define the translated attributes via `country_attribute` in your model as shown above.
+Also note that before you can create a country value table, you have to define the country attributes via `country_attribute` in your model as shown above.
 
 ```ruby
 class CreateProducts < ActiveRecord::Migration
@@ -72,25 +72,25 @@ class CreateProducts < ActiveRecord::Migration
     #creating country value tables
     reversible do |dir|
       dir.up do
-        Post.create_country_value_table!({
+        Product.create_country_value_table!({
           :price => :decimal, default: 0, :precision => 8, :scale => 2,
           :currency => :string
         })
       end
 
       dir.down do
-        Post.drop_country_value_table!
+        Product.drop_country_value_table!
       end
     end
 
     #compatible with globalize gem
     reversible do |dir|
       dir.up do
-        Post.create_translation_table! :title => :string, :text => :text
+        Product.create_translation_table! :title => :string, :text => :text
       end
 
       dir.down do
-        Post.drop_translation_table!
+        Product.drop_translation_table!
       end
     end
   end
