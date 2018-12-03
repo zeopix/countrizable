@@ -1,6 +1,5 @@
 class Product < ActiveRecord::Base
+  attribute :sku
   translates :title
-  accepts_nested_attributes_for :translations
-  has_many :variants
-  has_one :shipment
+  country_attribute :price
 end

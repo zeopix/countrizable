@@ -1,4 +1,6 @@
 require 'rubygems'
+require 'globalize'
+require 'byebug'
 require 'bundler/setup'
 
 Bundler.require(:default, :test)
@@ -25,33 +27,15 @@ class MiniTest::Spec
   before :each do
     DatabaseCleaner.start
     I18n.locale = I18n.default_locale = :en
-    Countrizable.country_code = nil
-  end
-
-  def with_fallbacks
-    previous = I18n.backend
-    I18n.backend = BackendWithFallbacks.new
-    I18n.pretend_fallbacks
-    return yield
-  ensure
-    I18n.hide_fallbacks
-    I18n.backend = previous
-  end
-
-  def assert_belongs_to(model, other)
-    assert_association(model, :belongs_to, other)
-  end
-
-  def assert_has_many(model, other)
-    assert_association(model, :has_many, other)
-  end
-
-  def assert_association(model, type, other)
-    assert model.reflect_on_all_associations(type).any? { |a| a.name == other }
+    Countrizable.country_code = :es
   end
 
   def assert_translated(record, locale, attributes, translations)
     assert_equal Array.wrap(translations), Array.wrap(attributes).map { |name| record.send(name, locale) }
+  end
+
+  def assert_country_valued(record, country_code, attributes, country_values)
+    assert_equal Array.wrap(country_values), Array.wrap(attributes).map { |name| record.send(name, country_code) }
   end
 
 end
