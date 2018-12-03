@@ -1,7 +1,5 @@
-require 'test_helper'
+require File.expand_path('../test_helper', __FILE__)
 
-class Countrizable::Test < ActiveSupport::TestCase
-  test "truth" do
-    assert_kind_of Module, Countrizable
-  end
+class CountrizableTest < MiniTest::Spec
+
 end
