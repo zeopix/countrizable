@@ -33,7 +33,7 @@ class CountrizableTest < MiniTest::Spec
 
       Countrizable.country_code = :de
       I18n.locale = :en
-      byebug
+
       assert_translated rest_p, :en, :title, 'title'
       assert_country_valued rest_p, :de, :price, '20'
     end
