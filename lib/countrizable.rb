@@ -1,4 +1,3 @@
-require "countrizable/railtie"
 require 'request_store'
 require 'active_record'
 require 'patches/active_record/xml_attribute_serializer'
